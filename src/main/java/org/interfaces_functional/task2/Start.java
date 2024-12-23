@@ -24,7 +24,7 @@ public class Start {
         int sum = 0;
 
         //вариант записи через лямбду
-        Predicate<String> predicateWithFirstSimbolUpperCaseAndThereIsLetterETwice = s -> {
+        Predicate<String> firstSimbolUpperCaseAndThereIsLetterETwice = s -> {
             int count = 0;
             if (Character.isUpperCase(s.charAt(0)) && s.contains("е")) {
                 char[] characterArrayList = s.toCharArray();
@@ -55,7 +55,7 @@ public class Start {
         };*/
 
         for (String s : list) {
-            if (predicateWithFirstSimbolUpperCaseAndThereIsLetterETwice.test(s)) {
+            if (firstSimbolUpperCaseAndThereIsLetterETwice.test(s)) {
                 sum++;
             }
         }
