@@ -1,3 +1,4 @@
+/*
 package org.interfaces_functional.task1;
 
 import java.util.ArrayList;
@@ -10,3 +11,4 @@ public interface Predicate<T> {
     Integer test(ArrayList<Integer> list);
 
 }
+*/

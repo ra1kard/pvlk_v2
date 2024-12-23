@@ -19,6 +19,7 @@
 4. Function< T,R >
 5. Consumer< T >
 6. Supplier< T >
+7. Comparator У ПАШИ ОПИСАН
 
 ___
 
