@@ -8,9 +8,9 @@ public class Task28 {
         //Scanner console = new Scanner(System.in);
         //String str = console.nextLine();
         //String str = "-2 + 10 / 5 + 2 * 1 - 4 + 5 ** 3";
-        //String str = "10 + 25 * 2 + 3";
-        String str = "8 / 2 + 2";
-        //String str = "50 / 10 + 2 ** 2 + 6 * 6 - 30";
+        //String str = "10 + 25 * 2 + 3";                       // 63
+        //String str = "8 / 2 + 2";                               // 6
+        String str = "50 / 10 + 2 ** 2 + 6 * 6 - 30";         // 15
         String[] arrayStr = str.split(" ");
         ArrayList<String> list = new ArrayList<>(List.of(arrayStr));
         int indexSymbol;
