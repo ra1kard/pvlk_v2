@@ -8,10 +8,10 @@ public class Start {
 
     public static void main(String[] args) {
         ArrayList<Animal> animals = new ArrayList<>(List.of(
-                new Animal("Петя", 32),
-                new Animal("Вова", 16),
-                new Animal("Катя", 13),
-                new Animal("Соня", 39)
+                new Animal("catВася", 32),
+                new Animal("dogКузя", 16),
+                new Animal("catЛуна", 13),
+                new Animal("DogРонн", 39)
         ));
 
         Comparator<Animal> animalComparator = (o1, o2) -> {
