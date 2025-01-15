@@ -38,7 +38,7 @@ public class Start {
         };
 
         //вариант записи стандартный
-        /*Predicate<String> predicateWithFirstSimbolUpperCaseAndThereIsLetterETwice = new Predicate<String>() {
+        /*Predicate<String> firstSimbolUpperCaseAndThereIsLetterETwice = new Predicate<String>() {
             @Override
             public boolean test(String s) {
                 int count = 0;
