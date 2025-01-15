@@ -1,4 +1,4 @@
-package org.streams.task01;
+package org.streams.example01;
 
 import java.util.Arrays;
 import java.util.List;
