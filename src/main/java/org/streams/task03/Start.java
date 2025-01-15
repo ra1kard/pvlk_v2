@@ -6,13 +6,13 @@ import java.util.List;
 public class Start {
 
     public static void main(String[] args) {
-        List<Integer> numbers = Arrays.asList(10, 20, 30, 40, 50);
+        List<Integer> numbers = Arrays.asList(5, 3, 8, 1, 9, 2, 7, 4, 6);
 
-        // Вычисляем сумму всех чисел
-        int sum = numbers.stream()
-                .reduce(10, Integer::sum);
-
-        System.out.println("Сумма: " + sum);
+        // Сортируем числа, ограничиваем до первых 5 и выводим
+        numbers.stream()
+                .sorted()
+                .limit(5)
+                .forEach(System.out::println);
 
     }
 

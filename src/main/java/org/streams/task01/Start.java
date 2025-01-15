@@ -3,7 +3,7 @@ package org.streams.task01;
 import java.util.Arrays;
 import java.util.List;
 
-public class Task1 {
+public class Start {
 
     public static void main(String[] args) {
         List<String> names = Arrays.asList("Анна", "Ким", "Борис", "Виктор", "Галина", "Дмитрий");
