@@ -6,7 +6,7 @@ import java.util.List;
 public class Start {
 
     public static void main(String[] args) {
-        List<String> names = Arrays.asList("Анна", "Борис", "Виктор", "Галина", "Дмитрий");
+        List<String> names = Arrays.asList("АннаАнна", "Борис", "Виктор", "Галина", "Дмитрий");
 
         //фильтруем все строки, длина которых больше 5
         names.stream()
