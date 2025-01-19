@@ -6,15 +6,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
-public class Start18_2 {
+public class Start_3 {
 
     public static void main(String[] args) {
         List<Integer> numbers = Arrays.asList(10, 16, 98, 23);
 
         //функциональный интерфейс, вычисляющий сумму цифр числа
         UnaryOperator<Integer> sum = x -> {
-            String s = Integer.toString(x);
-            return Character.getNumericValue(s.charAt(0)) + Character.getNumericValue(s.charAt(1));
+            return Integer.toString(x)
+                    .chars()
+                    .map(Character::getNumericValue)
+                    .sum();
         };
 
         //1. запишем сумму цифр чисел в отдельный лист

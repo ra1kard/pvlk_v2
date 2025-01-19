@@ -3,7 +3,7 @@ package org.streams.task20;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartToo {
+public class Start_2 {
 
     public static void main(String[] args) {
         ArrayList<String> listString = new ArrayList<>(List.of(
