@@ -41,8 +41,8 @@ public class Start {
 
         //при помощи stream() найдите суммарный возраст людей.
         int sumAge = humans.stream()
-                .mapToInt(human -> human.getAge())
-                .sum();
+                .mapToInt(human -> human.getAge())      // преобразуем в IntStream
+                .sum();                                         // суммируем
         System.out.println(sumAge);
     }
 
