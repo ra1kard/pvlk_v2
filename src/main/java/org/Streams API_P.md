@@ -300,8 +300,14 @@ System.out.println(number);
 ```java
 ArrayList<String> list = new ArrayList<>(List.of("Прости", "Прощай", "Привет"));
 
-boolean isContains = list.stream().anyMatch(string -> string.equalsIgnoreCase("привет"));
+boolean isContains = list.stream()
+        .anyMatch(string -> string.equalsIgnoreCase("привет"));
+
 System.out.println(isContains);
+```
+Вывод:
+```java
+true
 ```
 
 ### allMatch(Predicate)

@@ -1,4 +1,4 @@
-package org.streams.example02;
+package org.streams.example_kuf.example2;
 
 import java.util.Arrays;
 import java.util.List;
