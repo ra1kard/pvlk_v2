@@ -39,11 +39,16 @@ public class Start {
                 .reduce((humanFirst, humanSecond) -> (humanFirst.getAge() + humanSecond.getAge()))
         System.out.println(sumAge);*/
 
+        Integer humanList = humans.stream()
+                .map(h -> h.getAge())
+                .reduce((h1, h2) -> h1 + h2).get();
+        System.out.println(humanList);
+
         //при помощи stream() найдите суммарный возраст людей.
-        int sumAge = humans.stream()
+        /*int sumAge = humans.stream()
                 .mapToInt(human -> human.getAge())      // преобразуем в IntStream
                 .sum();                                         // суммируем
-        System.out.println(sumAge);
+        System.out.println(sumAge);*/
     }
 
 }
