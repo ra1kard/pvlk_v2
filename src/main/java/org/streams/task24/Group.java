@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public class Group {
     private String name;
-    ArrayList<Student> students = new ArrayList<>();
+    private ArrayList<Student> students = new ArrayList<>();
 
     Group(String name) {
         this.name = name;
@@ -34,8 +34,6 @@ public class Group {
                 .collect(Collectors.toList());
         return newListSt;
     }*/
-
-
 
     public String getName() {
         return name;

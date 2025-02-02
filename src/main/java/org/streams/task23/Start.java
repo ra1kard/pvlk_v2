@@ -29,22 +29,15 @@ public class Start {
             System.out.println("Имя Human: " + human.getName() + ", возраст: " + human.getAge());
         }
 
-        //TODO разобрать почему через reduce не получилось?
-        // нашел вот: "Метод reduce() возвращает значение одного типа, и в данном случае вы пытаетесь вернуть Integer,
-        // но используете его в качестве контейнера для Human. Вместо reduce() лучше использовать map() и sum()."
-        // но не очень понял
-
         //при помощи stream() найдите суммарный возраст людей.
-        /*Optional<Integer> sumAge = humans.stream()
-                .reduce((humanFirst, humanSecond) -> (humanFirst.getAge() + humanSecond.getAge()))
-        System.out.println(sumAge);*/
 
+        // ВАРИАНТ 1
         Integer humanList = humans.stream()
                 .map(h -> h.getAge())
                 .reduce((h1, h2) -> h1 + h2).get();
         System.out.println(humanList);
 
-        //при помощи stream() найдите суммарный возраст людей.
+        // ВАРИАНТ 2
         /*int sumAge = humans.stream()
                 .mapToInt(human -> human.getAge())      // преобразуем в IntStream
                 .sum();                                         // суммируем

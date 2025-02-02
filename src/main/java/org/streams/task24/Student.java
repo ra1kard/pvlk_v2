@@ -14,7 +14,14 @@ public class Student {
         marks.add(mark);
     }
 
-    public int getAverageMark() {
+    public double getAverageMarkDouble() {
+        return marks.stream()
+                .mapToInt(i -> i)
+                .average()
+                .orElse(0);
+    }
+
+    public int getAverageMarkInt() {
         return (int) marks.stream()
                 .mapToInt(i -> i)
                 .average()

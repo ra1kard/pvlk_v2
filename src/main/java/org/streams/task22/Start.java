@@ -71,8 +71,8 @@ public class Start {
                 .forEach(System.out::println);
         System.out.println();
 
-        // вычислить средний возраст всех сотрудников
-        //TODO как еще кроме orElse можно завершить?
+        // вычислить средний возраст всех сотрудников   //average в данном случае и есть терминальная операция (финальная), orElse не финальная, а скорее как возможность исключения
+        //TODO как еще кроме orElse можно завершить? -
         double averageAge = table.stream()
                 .mapToInt(x -> Integer.parseInt(x.get("Возраст")))
                 .average()

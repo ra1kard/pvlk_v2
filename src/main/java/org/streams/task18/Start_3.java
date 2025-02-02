@@ -12,7 +12,7 @@ public class Start_3 {
         List<Integer> numbers = Arrays.asList(10, 16, 98, 23);
 
         //функциональный интерфейс, вычисляющий сумму цифр числа
-        UnaryOperator<Integer> sum = x -> {
+        UnaryOperator<Integer> sumOfDigits = x -> {
             return Integer.toString(x)
                     .chars()
                     .map(Character::getNumericValue)
@@ -21,7 +21,7 @@ public class Start_3 {
 
         //1. запишем сумму цифр чисел в отдельный лист
         List<Integer> numbersNew = numbers.stream()
-                .map(sum)
+                .map(sumOfDigits)
                 .toList();
 
         //2. пройдемся по листу и найдем максимум
@@ -30,9 +30,8 @@ public class Start_3 {
         System.out.println(max.get());
 
         //3. найдем изначальное число, сумма цифр которого является максимальной
-        //TODO уточнить почему предлагается вместо == equals, ведь это числа, а не строки
         numbers.stream()
-                .filter(n -> sum.apply(n) == (max.get()))
+                .filter(n -> sumOfDigits.apply(n) == (max.get()))
                 .forEach(System.out::println);
     }
 
