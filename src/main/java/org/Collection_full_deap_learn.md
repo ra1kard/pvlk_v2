@@ -899,3 +899,417 @@ ___
 ___
 ___
 
+
+
+# equals() и hashCode() 
+
+В Java методы equals() и hashCode() играют ключевую роль
+- в сравнении объектов 
+- и работе с коллекциями, такими как HashMap, HashSet и другими.
+
+
+## equals():
+
+- Метод используется для сравнения объектов на равенство. 
+
+    
+- По умолчанию он сравнивает ссылки (адреса объектов в памяти), 
+    
+    // но обычно его переопределяют, чтобы сравнивать поля объектов.
+
+Например:
+
+
+```java
+class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Person)) return false;
+        Person other = (Person) obj;
+        return name.equals(other.name) && age == other.age;
+    }
+
+    public static void main(String[] args) {
+        Person person1 = new Person("Nik", 6);
+        Person person2 = new Person("Jak", 7);
+        System.out.println(person1.equals(person1));
+        System.out.println(person1.equals(person2));
+    }
+}
+```
+
+instanceof — это оператор сравнения типов, 
+- который используется для проверки того, относится ли объект к заданному типу (классу, подклассу или интерфейсу)
+- Он возвращает логическое значение true, если объект является экземпляром указанного класса или интерфейса 
+- в противном случае — false
+
+
+ОБСУДИТЬ ПРИМЕР ВЫШЕ С ПАШЕЙ
+
+
+
+
+
+
+
+
+
+
+
+
+## hashCode()
+
+Этот метод:
+- возвращает целочисленный код хеширования объекта
+- который используется, например, в хеш-таблицах
+- когда вы переопределяете equals(), вам также нужно переопределить hashCode(), чтобы обеспечивать согласованность.
+
+Вот пример переопределения hashCode():
+
+```java
+@Override
+public int hashCode() {
+    return Objects.hash(name, age);
+}
+
+```
+
+
+
+
+## Почему это важно:
+
+Если вы добавите объекты класса Person в HashSet, то он будет использовать hashCode() для поиска объектов. 
+
+Если equals() и hashCode() не соответствуют друг другу, может произойти ситуация, когда два равных объекта будут считаться разными в коллекции.
+
+Пример использования:
+
+```java
+Set<Person> people = new HashSet<>();
+people.add(new Person("Alice", 30));
+people.add(new Person("Alice", 30)); // Этот объект будет игнорирован
+
+System.out.println(people.size()); // Выведет 1
+
+```
+
+Таким образом, правильно реализованные методы equals() и hashCode() обеспечивают корректное поведение коллекций, основанных на хешировании.
+
+___
+
+Еще раз:
+
+## 1. Суть методов equals и hashCode
+
+а) Метод equals(Object obj):
+- Позволяет определить, равны ли два объекта по содержимому.  
+- По умолчанию реализация (наследуемая от Object) сравнивает ссылки (то есть, obj1.equals(obj2) будет true только если obj1 == obj2).  
+- Обычно `переопределяют в собственных классах, если хотят, чтобы объекты считались равными по значению` (например, если поля совпадают).
+
+б) Метод hashCode():
+- Возвращает числовое значение (целое число), которое используется для оптимизации поиска в хэш-коллекциях.  
+- Основная идея: если два объекта равны согласно equals, они должны возвращать один и тот же hashCode. Это называется контрактом hashCode/equals.
+
+
+
+## 2. Контракт hashCode и equals
+
+Контракт гласит:
+- Если два объекта равны посредством equals, то их hashCode должен быть одинаковым.  
+- Если hashCode у двух объектов различен, объекты гарантированно не равны.  
+- Однако, одинаковый hashCode не гарантирует равенство, то есть могут быть коллизии.
+
+Почему это важно? 
+
+Например, HashSet использует hashCode для размещения объектов в бакетах (корзинах). 
+
+При добавлении объекта сначала вычисляется его hashCode, который помогает быстро локализовать где могут находиться эквивалентные объекты. 
+
+Далее, если бакет найден, вызывается equals для точного сравнения.
+
+
+
+
+## 3. Пример: переопределение equals и hashCode
+
+Рассмотрим класс Person с полями name и age. 
+
+Чтобы два объекта Person считались равными, если у них одинаковые имя и возраст, необходимо переопределить equals и hashCode.
+
+Пример кода:
+
+```java
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Переопределяем equals
+    @Override
+    public boolean equals(Object obj) {
+        // Проверка на самосравнение
+        if (this == obj) return true;
+        // Если передали null или объекты разных классов, считаем их не равными
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Person other = (Person) obj;
+        // Сравниваем по значимым полям
+        return age == other.age &&
+               (name != null ? name.equals(other.name) : other.name == null);
+    }
+
+    // Переопределяем hashCode
+    @Override
+    public int hashCode() {
+        int result = 17; // произвольное начальное число
+        result = 31 * result + age;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+    
+    // Для удобства выводим объект в консоль
+    @Override
+    public String toString() {
+        return "Person{name='" + name + '\'' + ", age=" + age + '}';
+    }
+
+    public static void main(String[] args) {
+        Person person1 = new Person("John", 20);
+        System.out.println(person1);
+        System.out.println(person1.toString());
+
+        Person person2 = new Person("Joe", 22);
+        System.out.println(person1.equals(person1));
+        System.out.println(person1.equals(person2));
+    }
+    
+}
+```
+
+С ПАШЕЙ ПРОЙТИСЬ ПО ПРИМЕРУ 
+
+
+Объяснения:
+- equals сначала проверяет, не сравниваем ли мы объект сам с собой (this == obj), затем – на null и совпадение классов.
+- После этого происходит сравнение значимых полей.
+- hashCode вычисляется на основе тех же полей, что и в equals. Использование простых чисел (например, 17 и 31) – стандартный подход для расчёта.
+
+
+
+
+## 4. Пример использования в коллекциях
+
+Рассмотрим, как два объекта Person ведут себя в HashSet.
+
+```java
+import java.util.HashSet;
+import java.util.Set;
+
+public class Main {
+    
+    public static void main(String args) {
+        Person person1 = new Person("Alice", 30);
+        Person person2 = new Person("Alice", 30);
+        Person person3 = new Person("Bob", 25);
+
+        Set<Person> set = new HashSet<>();
+        set.add(person1);
+        set.add(person2);
+        set.add(person3);
+
+        System.out.println("Размер множества: " + set.size());
+        for (Person p : set) {
+            System.out.println(p);
+        }
+    }
+    
+}
+```
+
+Вывод:
+```java
+Размер множества: 2
+Person{name='Alice', age=30}
+Person{name='Bob', age=25}
+```
+
+Если equals и hashCode переопределены корректно:
+- то person1 и person2 будут считаться одинаковыми
+- и в HashSet останется только один экземпляр со значениями ("Alice", 30)
+- соответственно, размер множества будет 2
+
+
+Если бы не переопределять equals/hashCode, 
+- то даже если поля одинаковы, объекты считались бы разными (так как сравнивались бы ссылки), 
+- а HashSet добавил бы оба, что приводит к логике, отличной от ожидаемой.
+
+
+
+___
+
+Еще пример:
+
+```java
+package org.collection.example3;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class Start2 {
+
+    public static void main(String[] args) {
+        Person person1 = new Person("Alice", 30);
+        Person person2 = new Person("Alices", 30);
+        Person person3 = new Person("Bob", 25);
+        Person person4 = new Person("Bob", 26);
+
+        Set<Person> set = new HashSet<>();
+        set.add(person1);
+        set.add(person2);
+        set.add(person3);
+        set.add(person4);
+
+        System.out.println("Размер множества: " + set.size());
+        for (Person p : set) {
+            System.out.println(p);
+        }
+
+    }
+
+}
+
+```
+
+Вывод: 
+```java
+Размер множества: 4
+Person{name='Alice', age=30}
+Person{name='Alices', age=30}
+Person{name='Bob', age=25}
+Person{name='Bob', age=26}
+```
+
+
+
+## 5. Основные ошибки при переопределении
+
+- Несоответствие между equals и hashCode. Если переопределить только equals, можно столкнуться с проблемой, когда два объекта равны, но имеют разные hashCode – это приводит к ошибкам при использовании в хэш-коллекциях.  
+- Не учитывать все значимые поля, используемые для сравнения. Например, если в equals используются поля name и age, они должны участвовать и в вычислении hashCode.  
+- Использование изменяемых значений для вычисления hashCode. Если объект изменится после добавления в HashSet, поведение коллекции может оказаться некорректным, так как hashCode уже не совпадёт с первоначально вычисленным.
+
+
+
+
+
+
+## 6. Дополнительный пример: ошибки при использовании изменяемых полей
+
+Представьте ситуацию, где после помещения объекта в HashSet мы изменим значение поля, участвующего в вычислении hashCode. 
+
+Это может привести к тому, что объект окажется в неверном бакете коллекции, и его уже не удастся найти или удалить.
+
+
+```java
+package org.collection.example4;
+
+public class MutablePerson {
+    private String name;
+
+    public MutablePerson(String name) {
+        this.name = name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        MutablePerson other = (MutablePerson) obj;
+        return name != null ? name.equals(other.name) : other.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "MutablePerson{name='" + name + "'}";
+    }
+
+}
+
+
+```
+
+```java
+package org.collection.example4;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class Start {
+
+    public static void main(String[] args) {
+        Set<MutablePerson> set = new HashSet<>();
+        MutablePerson p = new MutablePerson("Alice");
+        set.add(p);
+        System.out.println("До изменения: " + set.contains(p)); // true
+        // Изменяем поле, влияющее на hashCode
+        p.setName("Bob");
+        System.out.println("После изменения: " + set.contains(p)); // Может быть false!
+    }
+
+}
+
+```
+
+В данном примере, 
+- после изменения имени, hashCode объекта изменится, 
+- а HashSet не сможет корректно определить, что этот объект уже находится в коллекции. 
+
+Это приводит к трудноуловимым багам.
+
+
+
+
+
+
+
+## 7. Итог
+
+- equals позволяет сравнивать объекты по содержимому, а hashCode обеспечивает быструю индексацию в хэш-структурах.  
+- Их совместное переопределение обязательно: если equals возвращает true для двух объектов, их hashCode должны совпадать.  
+- Правильное проектирование этих методов особенно важно при использовании объектов в коллекциях, основанных на хэшировании.
+
+
+
+
+
+
+
+
+___
+___
+___
+
+```java
+```
+
