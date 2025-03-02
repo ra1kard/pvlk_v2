@@ -1,5 +1,7 @@
 package org.collection.example3;
 
+import java.util.Objects;
+
 public class Person {
     private String name;
     private int age;
@@ -45,6 +47,8 @@ public class Person {
         Person person2 = new Person("Joe", 22);
         System.out.println(person1.equals(person1));
         System.out.println(person1.equals(person2));
+
+        Objects.hash(person1);
     }
 
 }
