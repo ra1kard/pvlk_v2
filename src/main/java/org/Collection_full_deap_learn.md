@@ -1484,27 +1484,138 @@ ___
 
 ### 4. Пример: корректное переопределение equals и hashCode
 
-...
+Представим класс, который мы будем использовать в качестве ключа в HashMap. 
+
+Если методы equals и hashCode переопределены правильно, то наш ключ будет работать как ожидалось.
+
+
+```java
+public final class Employee {
+    private final int id;
+    private final String name;
+
+    public Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    // Переопределяем hashCode – обычно используют множитель и сумму полей
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+
+    // Переопределяем equals – сравниваем поля, по которым определяем уникальность
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;  // быстрая проверка на равенство по ссылке
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Employee other = (Employee) obj;
+        return id == other.id && (name == null ? other.name == null : name.equals(other.name));
+    }
+}
+```
+
+Комментарий:
+- В этом примере мы используем два поля id и name для вычисления hashCode и сравнения equals. Благодаря контракту: если два сотрудника равны по id и name, они получат одинаковый hashCode, а equals вернет true.
+- Такой класс можно безопасно использовать в качестве ключа в HashMap, потому что его состояние не изменяется после создания (класс можно сделать неизменяемым, как показано).
+
+
+
+
 
 ___
 
 ### 5. Пример использования HashMap с учетом equals и hashCode
 
-...
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class HashMapExample {
+    public static void main(String args) {
+        Map<Employee, String> employeeMap = new HashMap<>();
+
+        Employee emp1 = new Employee(1, "Alice");
+        Employee emp2 = new Employee(2, "Bob");
+        Employee emp3 = new Employee(1, "Alice"); // Такой же "ключ", как и emp1
+
+        employeeMap.put(emp1, "Разработчик");
+        employeeMap.put(emp2, "Тестировщик");
+
+        // Попытаемся добавить emp3; поскольку emp1.equals(emp3) должно вернуть true,
+        // значение для ключа с id=1 и name="Alice" будет перезаписано.
+        employeeMap.put(emp3, "Ведущий разработчик");
+
+        // Получаем значение по ключу emp1
+        System.out.println("Должно вывести 'Ведущий разработчик': " + employeeMap.get(emp1));
+        // Также можно найти по emp3, так как они равны
+        System.out.println("Должно вывести 'Ведущий разработчик': " + employeeMap.get(emp3));
+    }
+}
+```
+
+Комментарий:
+
+- При добавлении emp3 HashMap использует hashCode, чтобы найти «ведро», а затем equals, чтобы сравнить emp3 с уже хранящимся emp1.
+- В итоге значение для данного ключа обновляется на "Ведущий разработчик", что мы и наблюдаем при извлечении.
+
 
 ___
 
 
 ### 6. Дополнительно: как выглядит структура узла (Node)
 
-...
+Внутри HashMap, начиная с Java 8, используется вспомогательный класс Node, который обычно реализован так (упрощенный вариант):
+
+```java
+static class Node<K,V> implements Map.Entry<K,V> {
+    final int hash;
+    final K key;
+    V value;
+    Node<K,V> next; // ссылка на следующий элемент в ведре (при коллизиях)
+
+    Node(int hash, K key, V value, Node<K,V> next) {
+        this.hash = hash;
+        this.key = key;
+        this.value = value;
+        this.next = next;
+    }
+
+    @Override
+    public final K getKey() { return key; }
+    @Override
+    public final V getValue() { return value; }
+    @Override
+    public final V setValue(V newValue) {
+        V oldValue = value;
+        value = newValue;
+        return oldValue;
+    }
+    // equals и hashCode для Entry тоже переопределяются по контракту
+}
+```
+
+Комментарий:
+- Каждый узел содержит вычисленный хэш, сам ключ, значение и ссылку на следующий узел в списке, если в одном «ведре» оказывается несколько элементов.
+- При поиске нужного ключа HashMap сначала определяет индекс и затем проходит по цепочке, сравнивая с помощью equals.
+
+
+
 
 ___
 
 ### Итог
 
+HashMap использует методы hashCode для распределения ключей по массиву, 
 
-...
+А метод equals для определения истинного равенства ключей в случае коллизий. 
+
+Правильное переопределение equals и hashCode является обязательным условием для корректной работы HashMap (а также других коллекций, использующих хэширование, например HashSet).
+
 
 
 
