@@ -1,6 +1,7 @@
 package org.classes.task10;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Start {
@@ -33,9 +34,9 @@ public class Start {
 //  2. метод кол-во сложных задач переделать - слишком громоздкое решение
 //  3. в значениях Enum + ArrayList тасков:
 
-    /*HashMap<Enum, String> map = new HashMap<>(Map.of(
+    HashMap<Enum, String> map = new HashMap<>(Map.of(
             1, "Первое значение",
             2, "Второе значение",
             3, "Третье значение"
     )
-    );*/
+    );
