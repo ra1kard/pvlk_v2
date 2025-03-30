@@ -6,7 +6,7 @@ import java.util.List;
 public class Start {
 
     public static void main(String args[]) {
-        ArrayList<Integer> listOne = new ArrayList<>(List.of(100, 200, -5, -44, 663, 7));
+        ArrayList<Integer> listOne = new ArrayList<>(List.of(100, -200, -5, -44, 663, 7));
         ArrayList<Integer> listTwo = new ArrayList<>(List.of(1, 20, -5, -44, 66, 7));
 
         System.out.println("Main thread started...");
@@ -19,7 +19,9 @@ public class Start {
 
         try {
             threadMax.join();
+            System.out.println("Max closed");
             threadMin.join();
+            System.out.println("Min closed");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

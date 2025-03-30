@@ -10,9 +10,9 @@ public class MyThread implements Runnable {
 
         //TODO как-то через дебаг можно отслеживать потоки?
         while (true) {
-            synchronized (MyThread.class) { // Блок синхронизации для обеспечения корректного доступа к переменной counter
-                if (counter <= 0 || counter >= 5010) {
-                    if (threadName.equals("MyThreadX") && counter >= 5010) {
+            //synchronized (MyThread.class) { // Блок синхронизации для обеспечения корректного доступа к переменной counter
+                if (counter <= 0 || counter >= 10000) {
+                    if (threadName.equals("MyThreadX") && counter >= 10000) {
                         System.out.printf("%s wins! Counter reached %d\n", threadName, counter);
                     } else if (threadName.equals("MyThreadY") && counter <= 0) {
                         System.out.printf("%s wins! Counter reached %d\n", threadName, counter);
@@ -28,14 +28,14 @@ public class MyThread implements Runnable {
                     counter--; // второй поток уменьшает значение
                     System.out.println(threadName + " я ⬇\uFE0F уменьшил только что " + counter);
                 }
-            }
+            //}
             // Немного "замедляем" выполнение, чтобы дать возможность переключаться потокам
             // эта задержка не обязательна, но помогает наблюдать изменения счетчика
-            try {
+            /*try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 System.out.println(threadName + " was interrupted");
-            }
+            }*/
         }
         System.out.printf("%s finished... \n", threadName);
 
