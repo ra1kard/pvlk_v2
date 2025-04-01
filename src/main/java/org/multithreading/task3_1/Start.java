@@ -2,8 +2,7 @@ package org.multithreading.task3_1;
 
 import java.util.Scanner;
 
-/*
-public class Start {
+/*public class Start {
     public static void main(String args) {
         int  twoDimArray = {
                 {5, 7, 3, 17},
@@ -36,5 +35,5 @@ public class Start {
 
         System.out.println("Main thread finished...");
     }
-}
-*/
+}*/
+

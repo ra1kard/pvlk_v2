@@ -1,6 +1,6 @@
 package org.multithreading.task3_1;
 
-/*public class RowSearchThread extends Thread {
+public class RowSearchThread extends Thread {
     private int rowIndex;
     // Поле для хранения строки должно быть массивом целых чисел,
     // а не одним числом
@@ -32,4 +32,4 @@ package org.multithreading.task3_1;
             System.out.printf("В строке %d нет элемента, равного %d\n", rowIndex, target);
         }
     }
-}*/
+}
