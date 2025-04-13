@@ -7,16 +7,11 @@ public class Start {
     public static void main(String[] args) {
         int[][] arr = new int[3][3];
         Scanner console = new Scanner(System.in);
+        int count = 100;
 
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++) {
-                if (i == 0) {
-                    arr[i][j] = i + j + 10;
-                } else if (i == 1) {
-                    arr[i][j] = i + j + 20;
-                } else if (i == 2) {
-                    arr[i][j] = i + j + 30;
-                }
+                arr[i][j] = count++;
             }
         }
 
