@@ -2,7 +2,7 @@ package org.multithreading.task2_1;
 
 public class Start {
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         System.out.println("Main thread started...");
 
         // Создаем два отдельных потока, каждый получает экземпляр Runnable
@@ -27,7 +27,7 @@ public class Start {
 // запусти и смотри за результатом! (без synchronized)
 
 // int temp = counter   ПРЕРВАН (без synchronized)
-// counter = temp - 1
+// counter = temp - 1   (или +1, важно просто понимать, так работает counter, есть возможность куда вклиниться)
 
 // int  temp = 2995
 // int  temp = 2994

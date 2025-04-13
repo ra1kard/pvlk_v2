@@ -30,11 +30,6 @@ public class RowSearchThread extends Thread {
 
         //ищем по условию
         boolean result = false;
-        /*for (int i : row) {
-            if (i == searchValue) {
-                result = true;
-            }
-        }*/
         for (int i = 0; i < row.length; i++) {
             if (row[i] == searchValue) {
                 columnNumber = i;

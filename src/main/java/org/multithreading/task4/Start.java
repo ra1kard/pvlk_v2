@@ -30,10 +30,6 @@ public class Start {
         }
         System.out.println();
 
-
-
-
-
         System.out.println("Main thread finished...");
     }
 
