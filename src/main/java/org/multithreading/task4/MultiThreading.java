@@ -34,7 +34,6 @@ public class MultiThreading extends CounterThread {
         System.out.printf("%s started... \n", threadName);
 
         while (true) {
-
             if (counter < 42) {
                 try {
                     int sleepTime = 1000 + random.nextInt(2000);
@@ -47,7 +46,6 @@ public class MultiThreading extends CounterThread {
             } else {
                 break;
             }
-
         }
 
         System.out.printf("%s finished... \n", threadName);
