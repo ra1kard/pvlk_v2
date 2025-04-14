@@ -1,4 +1,4 @@
-package org.multithreading.task5;
+package org.multithreading.task5_1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ public class Start {
         System.out.println("Main thread started….");
         List<MultiThreading> multiThreadingList = new ArrayList<>();
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 2; i++) {
             MultiThreading thread = new MultiThreading("thread" + (i+1), i+1);
             multiThreadingList.add(thread);
             thread.start();
