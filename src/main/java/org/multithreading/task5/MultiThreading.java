@@ -17,7 +17,7 @@ public class MultiThreading extends Thread {
         while (true) {
             if (counter <= 149600) {
                 try {
-                    Thread.sleep(0,0000000001);
+                    Thread.sleep(0,1);
                     counter++;
                     System.out.println(Thread.currentThread().getName() + " counter: " + counter);
                 } catch (InterruptedException e) {

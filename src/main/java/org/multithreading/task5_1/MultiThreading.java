@@ -30,7 +30,7 @@ public class MultiThreading extends Thread {
                     break;
                 }
             } else if (threadName.equalsIgnoreCase("thread2")) {
-                if (counterY <= 99600) {
+                if (counterY <= 149600) {
                     try {
                         Thread.sleep(0,0000000001);
                         counterY++;
