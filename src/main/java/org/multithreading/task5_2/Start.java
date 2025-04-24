@@ -11,7 +11,7 @@ public class Start {
 
     public static void main(String[] args) {
         System.out.println("Main thread started….");
-        List<MultiThreading> multiThreadingList = new ArrayList<>();
+        //List<MultiThreading> multiThreadingList = new ArrayList<>();
         ExecutorService executor = Executors.newFixedThreadPool(3);     //пул из 3 потоков
 
         for (int i = 0; i < 1; i++) {

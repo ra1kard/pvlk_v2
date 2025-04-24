@@ -1,6 +1,6 @@
 package org.multithreading.task5_2;
 
-public class MultiThreading extends Thread {
+/*public class MultiThreading extends Thread {
     public static int counterX = 22;
     public static int counterY = 22;
     private static String name;
@@ -48,4 +48,4 @@ public class MultiThreading extends Thread {
         System.out.printf("%s finished... \n", Thread.currentThread().getName());
     }
 
-}
+}*/
