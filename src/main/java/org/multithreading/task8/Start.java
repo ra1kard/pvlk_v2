@@ -1,0 +1,42 @@
+package org.multithreading.task8;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Start {
+
+    public static void main(String[] args) {
+        Scanner console = new Scanner(System.in);
+        List<Question> questions = new ArrayList<>();
+        List<String> myAnswers1 = new ArrayList<>();
+        List<String> myAnswers2 = new ArrayList<>();
+        List<String> myAnswers3 = new ArrayList<>();
+
+        myAnswers1.add("Сара");
+        myAnswers1.add("Зара");
+        myAnswers1.add("Нала");
+        myAnswers2.add("18");
+        myAnswers2.add("21");
+        myAnswers2.add("23");
+        myAnswers3.add("1.0");
+        myAnswers3.add("3.0");
+        myAnswers3.add("10.0");
+
+        Question question1 = new Question("Персонаж в король лев?", 1, myAnswers1, 3);
+        Question question2 = new Question("Водку в каком возрасте можно купить?", 2, myAnswers2, 1);
+        Question question3 = new Question("Средний уровень холестирина в крови?", 3, myAnswers3, 2);
+        questions.add(question1);
+        questions.add(question2);
+        questions.add(question3);
+
+        int sumBalls = 0;
+        for (int i = 0; i < questions.size(); i++) {
+            questions.get(i).printTextQuestion(i + 1);
+            questions.get(i).printAnswers();
+            sumBalls += questions.get(i).selectAnswer(console.nextInt());
+            System.out.println("ВСЕГО баллов: " + sumBalls);
+        }
+    }
+
+}
