@@ -34,9 +34,21 @@ public class Start {
         for (int i = 0; i < questions.size(); i++) {
             questions.get(i).printTextQuestion(i + 1);
             questions.get(i).printAnswers();
-            sumBalls += questions.get(i).selectAnswer(console.nextInt());
+            sumBalls += questions.get(i).selectAnswer(correctAnswer());
             System.out.println("ВСЕГО баллов: " + sumBalls);
         }
+    }
+
+    // Должна быть проверка на корректность переданного значения.
+    public static int correctAnswer() {
+        Scanner console = new Scanner(System.in);
+        System.out.println("Введите диапазон от 1 до 3");
+        int choose = console.nextInt();
+        while (choose < 1 || choose > 3) {
+            System.out.println("Введите диапазон еще раз от 1 до 3");
+            choose = console.nextInt();
+        }
+        return choose;
     }
 
 }
