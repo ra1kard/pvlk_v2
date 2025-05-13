@@ -34,48 +34,64 @@ public class Start {
             questions.get(i).printTextQuestion(i + 1);
             questions.get(i).printAnswers();
 
-            //int indexChooseAnswer = console.nextInt();
-            int indexChooseAnswer = askQuestion(15);
+            int indexChooseAnswer = askQuestion(10);
 
+            // TODO: анализруем, что получено в askQuestion
             // Если за отведённое время ответа дано не было - ответ не засчитывается
-            // получим если null
-            // и selectAnswer
 
-            sumBalls += questions.get(i).selectAnswer(indexChooseAnswer);
-            System.out.println("ВСЕГО баллов: " + sumBalls);
-            /*try {
-                Thread.sleep(2000);
-            } catch(InterruptedException e) {
-                System.out.println("Thread has been interrupted");
-            }*/
+            // получим если 0 (что означает, что не выбрали за отведенное время) - то ответ не засчитываем
+            // и соответственно нет нужды что-то передавать в selectAnswer
+
+            while (indexChooseAnswer != 0 && (indexChooseAnswer < 1 || indexChooseAnswer > 3)) {    // если получили не 0 и вне диапазона - повтор
+                System.out.println("Введите диапазон от 1 до 3");
+                indexChooseAnswer = askQuestion(5);
+            }
+
+            if (indexChooseAnswer == 0) {
+                System.out.println("ВСЕГО баллов: " + sumBalls);
+            } else {
+                // если selectAnswer заполнен
+                sumBalls += questions.get(i).selectAnswer(indexChooseAnswer);
+                System.out.println("ВСЕГО баллов: " + sumBalls);
+            }
         }
     }
+
+    /*public static int correctAnswer() {
+        Scanner console = new Scanner(System.in);
+        System.out.println("Введите диапазон от 1 до 3");
+        int choose = console.nextInt();
+        while (choose < 1 || choose > 3) {
+            System.out.println("Введите диапазон еще раз от 1 до 3");
+            choose = console.nextInt();
+        }
+        return choose;
+    }*/
+
+    // TODO: повыводить futureAnswer и тп - НЕ ОТРАБАТЫВАЕТ ОДИН КЕЙС
 
     public static Integer askQuestion(int timeoutSeconds) {
         Scanner console = new Scanner(System.in);
         ExecutorService exec = Executors.newSingleThreadExecutor();
 
-        // Запускаем поток, который читает строку из консоли
-        Future<Integer> futureAnswer = exec.submit(() -> {
-            return console.nextInt();   //ждем, если не вернулось done 15 сек
+        Future<Integer> futureAnswer = exec.submit(() -> {  // Запускаем поток, который читает строку из консоли
+            return console.nextInt();                       // ждем, если не вернулось done, в течение 15 сек
         });
 
-        // Настраиваем таймер, который через timeoutSeconds секунд отменит future, если тот ещё не завершился
-        Timer timer = new Timer();
+        Timer timer = new Timer();  // Настраиваем таймер, который через timeoutSeconds секунд отменит future, если тот ещё не завершился
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (!futureAnswer.isDone()) {                      // тут мб два состояния - ввели или не ввели (если не ввели - ждем, смотря что раньше произойдет - мы введем или 15 сек пройдут)
+                if (!futureAnswer.isDone()) {                      // тут мб два состояния - ввели или не ввели (если не ввели - ждем, смотря что раньше произойдет - мы введем и это условие будет неактуально или 15 сек пройдут и условие будет выполнено)
                     System.out.println("\n--- Время вышло! ---");
                     futureAnswer.cancel(true);  // попытаемся прервать
                 }
             }
         }, timeoutSeconds * 1000L);
 
-        Integer answer = null;
+        Integer answer = 0;
         try {
-            // Блокируемся пока пользователь не введёт ответ или пока future не будет отменён
-            answer = futureAnswer.get();
+            answer = futureAnswer.get();    // Блокируемся пока пользователь не введёт ответ или пока future не будет отменён
         } catch (CancellationException | InterruptedException e) {
             // Время вышло или нас прервали
         } catch (ExecutionException e) {
@@ -90,3 +106,4 @@ public class Start {
     }
 
 }
+

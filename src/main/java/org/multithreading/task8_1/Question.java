@@ -36,10 +36,10 @@ public class Question {
 
     int selectAnswer(int indexChooseAnswer) {             //метод выбора номера ответа
         // Должна быть проверка на корректность переданного значения.
-        if (indexChooseAnswer < 1 || indexChooseAnswer > 3) {
+        /*if (indexChooseAnswer < 1 || indexChooseAnswer > 3) {
             System.out.println("Введите диапазон от 1  до 3");
             selectAnswer(console.nextInt());
-        }
+        }*/
 
         // Метод возвращает количество баллов за выбранный вариант ответа.
         if (indexChooseAnswer == indexRightAnswer) {
