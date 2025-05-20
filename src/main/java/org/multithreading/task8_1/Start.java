@@ -31,6 +31,8 @@ public class Start {
 
         int sumBalls = 0;
         for (int i = 0; i < questions.size(); i++) {
+            System.out.println();
+            System.out.println("ЧТОЖЕ ПРИСТУПАЮ К ВОПРОСУ НУМЕРО " + (i + 1));
             questions.get(i).printTextQuestion(i + 1);
             questions.get(i).printAnswers();
 
@@ -68,7 +70,7 @@ public class Start {
         return choose;
     }*/
 
-    // TODO: повыводить futureAnswer и тп - НЕ ОТРАБАТЫВАЕТ ОДИН КЕЙС
+    // TODO: повыводить futureAnswer и тп - НЕ ОТРАБАТЫВАЕТ ОДИН КЕЙС - перепроверь выводом и ес че отправь Паше
 
     public static Integer askQuestion(int timeoutSeconds) {
         Scanner console = new Scanner(System.in);
@@ -100,6 +102,7 @@ public class Start {
             // Очищаем ресурсы
             timer.cancel();
             exec.shutdownNow();
+            System.out.println("Сделали exec.shutdownNow()");
         }
 
         return answer;
