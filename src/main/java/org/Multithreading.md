@@ -1336,8 +1336,176 @@ ___
 - запустить на м3 задачу в один поток
 - так более верно будет сказать, что они работают параллельно
 
+___
 
 
+
+
+
+
+
+
+
+# Java Lock в потоках
+
+1. Зачем нужны локи (блокировки)?  
+
+Когда несколько потоков одновременно обращаются к общим данным 
+(например, к одной коллекции или к полю объекта), 
+без синхронизации вы получите «гонки» (race conditions) и непредсказуемое поведение. 
+
+Лок обеспечивает взаимное исключение (mutual exclusion): 
+в каждый момент времени «хранитель» ресурса (лок) 
+даёт доступ только одному потоку.
+
+___
+
+2. «synchronized» vs java.util.concurrent.locks.Lock  
+
+a) synchronized — ключевое слово, простое в использовании. 
+
+    При входе в synchronized-блок JVM захватывает «внутренний» монитор объекта, 
+    при выходе — отпускает.
+
+b) Lock — интерфейс в пакете java.util.concurrent.locks. 
+
+    Позволяет более гибко управлять блокировкой: тайм-аут захвата, 
+    прерываемый захват, честная очередь ожидания и т. д.
+
+___
+
+3. Основные реализации Lock  
+   - ReentrantLock — самая распространённая. 
+   
+
+    Поддерживает повторный вход (reentrant): 
+    если поток уже захватил блокировку, он может войти в неё повторно без взаимоблокировки.  
+
+   - ReadWriteLock (и его реализация ReentrantReadWriteLock) 
+
+    разделяет доступ на «чтение» и «запись»: 
+    несколько читателей могут работать параллельно, 
+    а писатель ждёт, пока все читатели отпустят «read»-блоки.
+
+___
+
+4. Пример использования ReentrantLock
+
+```java
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Counter {
+    private int count = 0;
+    // fair = true — гарантирует порядок очереди. Но чуть медленнее.
+    private final Lock lock = new ReentrantLock(); 
+
+    public void increment() {
+        lock.lock();          // захватили лок
+        try {
+            count++;
+        } finally {
+            lock.unlock();    // обязательно в finally, чтобы не «повиснуть»
+        }
+    }
+
+    public int getCount() {
+        lock.lock();
+        try {
+            return count;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Counter c = new Counter();
+
+        Runnable r = () -> {
+            for (int i = 0; i < 1000; i++) {
+                c.increment();
+            }
+        };
+
+        Thread t1 = new Thread(r);
+        Thread t2 = new Thread(r);
+        t1.start();
+        t2.start();
+        t1.join();
+        t2.join();
+
+        System.out.println("count = " + c.getCount());  
+        // Без блокировок скорее всего получим число < 2000
+    }
+}
+
+```
+
+___
+
+5. tryLock и прерываемый захват
+
+```java
+if (lock.tryLock()) {
+    try {
+        // удалось захватить сразу
+    } finally {
+        lock.unlock();
+    }
+} else {
+    // лок занят — можно что-то другое сделать
+}
+
+// с таймаутом и поддержкой прерываний
+if (lock.tryLock(500, TimeUnit.MILLISECONDS)) {
+    try {
+        // работа
+    } finally {
+        lock.unlock();
+    }
+} catch (InterruptedException e) {
+    Thread.currentThread().interrupt();
+}
+
+```
+
+___
+
+6. ReadWriteLock для разделённых операций
+
+```java
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class SharedData {
+    private String value;
+    private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
+
+    public void write(String newVal) {
+        rwLock.writeLock().lock();
+        try {
+            value = newVal;
+        } finally {
+            rwLock.writeLock().unlock();
+        }
+    }
+
+    public String read() {
+        rwLock.readLock().lock();
+        try {
+            return value;
+        } finally {
+            rwLock.readLock().unlock();
+        }
+    }
+}
+
+```
+
+Когда использовать что:
+- Простая синхронизация на методах/блоках → synchronized.
+- Нужна гибкость (таймауты, честность) → ReentrantLock.
+- Много читателей, мало писателей → ReadWriteLock.
 
 
 
