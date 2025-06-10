@@ -72,7 +72,7 @@ public class Start {
         return choose;
     }*/
 
-    // TODO: повыводить futureAnswer и тп - НЕ ОТРАБАТЫВАЕТ ОДИН КЕЙС - перепроверь выводом и ес че отправь Паше
+    // TODO: повыводить futureAnswer и тп - НЕ ОТРАБАТЫВАЕТ ОДИН КЕЙС - перепроверь выводом и ес че отправь
 
     public static Integer askQuestion(int timeoutSeconds, Scanner sc) {
         ExecutorService exec = Executors.newSingleThreadExecutor();
